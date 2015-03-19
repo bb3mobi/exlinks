@@ -1,0 +1,19 @@
+services:
+    bb3mobi.exlinks.controller:
+        class: bb3mobi\exlinks\controller\url
+        arguments:
+            - @request
+            - @user
+            - @config
+    bb3mobi.exlinks.helper:
+        class: bb3mobi\exlinks\core\helper
+        arguments:
+            - @config
+            - @config_text
+            - @user
+    bb3mobi.exlinks.listener:
+        class: bb3mobi\exlinks\event\listener
+        arguments:
+            - @bb3mobi.exlinks.helper
+        tags:
+            - { name: event.listener }

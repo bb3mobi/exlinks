@@ -1,0 +1,31 @@
+{
+    "name": "bb3mobi/exlinks",
+    "type": "phpbb-extension",
+    "description": "Managing external and internal links forum.",
+    "homepage": "http://bb3.mobi",
+    "keywords": ["prime", "external", "extension", "seo", "links", "message", "redirect", "url"],
+    "version": "1.0.4",
+    "time": "2014-11-01",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Ken F. Innes IV",
+            "homepage": "http://www.absoluteanime.com/admin/mods.htm#links",
+            "role": "Developer"
+        },
+        {
+            "name": "Anvar",
+            "homepage": "http://apwa.ru",
+            "role": "Converting to extension"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "extra": {
+        "display-name": "External Links",
+        "soft-require": {
+        "phpbb/phpbb": "3.1.*@dev"
+        }
+    }
+}
