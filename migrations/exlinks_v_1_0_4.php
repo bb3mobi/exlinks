@@ -9,14 +9,6 @@
 
 namespace bb3mobi\exlinks\migrations;
 
-/**
-* @ignore
-*/
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
 class exlinks_v_1_0_4 extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()

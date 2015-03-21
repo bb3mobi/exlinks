@@ -334,5 +334,3 @@ class helper
 		return($html_tag);
 	}
 }
-
-?>
