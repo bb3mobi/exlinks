@@ -57,7 +57,7 @@ class url
 			if (!$this->config['external_link_redirect'])
 			{
 				header('Location: ' . $redirect_url);
-				exit();
+				return;
 			}
 			header('Refresh: ' . $this->config['external_link_redirect'] . '; url=' . $redirect_url); // Time redirect
 			$parse = parse_url($location);

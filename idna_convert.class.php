@@ -1,6 +1,5 @@
 <?php
 // {{{ license
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker:*/
 //
 // +----------------------------------------------------------------------+
@@ -20,9 +19,8 @@
 // | USA.																|
 // +----------------------------------------------------------------------+
 //
-
 // }}}
-namespace bb3mobi\exlinks\controller;
+
 /**
 *Encode/decode Internationalized Domain Names.
 *
@@ -51,10 +49,12 @@ namespace bb3mobi\exlinks\controller;
 *@copyright 2004-2010 phlyLabs Berlin, http://phlylabs.de
 *@version 0.6.9 2010-11-04
 */
+
+namespace bb3mobi\exlinks\controller;
+
 class idna_convert
 {
 	// NP See below
-
 	// Internal settings, do not mess with them
 	protected $_punycode_prefix = 'xn--';
 	protected $_invalid_ucs = 0x80000000;

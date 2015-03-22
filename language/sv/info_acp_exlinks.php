@@ -16,11 +16,9 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACP_MODED_LINKS_TITLE'				=> 'Externa länkar',
-
 	'ACP_MODED_LINKS'					=> 'Hantera länkar',
 	'ACP_MODED_LINKS_EXPLAIN'			=> 'Ken F. Innes IV <a href="http://www.absoluteanime.com/admin/mods.htm#links">Prime Links phpBB3.0</a> | Anvar S. <a href="http://bb3.mobi">External Links for phpBB3.1</a>',
 	'ACP_MODED_LINKS_DESCRIPTION'		=> 'Här kan du ställa in hur externa länkar markeras i forumet.',
-
 	'ACP_MODED_LINKS_SETTINGS'			=> 'Grundinställningar',
 	'ACP_TARGET_ATTRIBUTE'				=> 'Skall Â«targetÂ»-attributet användas?',
 	'ACP_TARGET_ATTRIBUTE_EXPLAIN'		=> 'Om detta deaktiveras så används OnClick JavaScript.',
@@ -31,14 +29,12 @@ $lang = array_merge($lang, array(
 	'ACP_EXTERNAL_LINK_PREFIX'		=> 'Prefix före länken',
 	'ACP_EXTERNAL_LINK_PREFIX_EXPLAIN'	=> 'Leave blank for standard confirmation page.',
 	'ACP_EXTERNAL_LINK_PREFIX_LEVEL'	=> 'Prefix/Confirmation Page',
-
 	'LINK_PREFIX_LEVEL'	=> array(
 		0	=> 'Do not use the prefix',
 		1	=> 'Only for anonymous',
 		2	=> 'Registered',
 		3	=> 'Apply to all',
 	),
-
 	'ACP_EXTERNAL_LINK_REDIRECT'		=> 'Redirect time',
 	'ACP_INTERNAL_LINK_DOMAINS'			=> 'White list',
 	'ACP_INTERNAL_LINK_DOMAINS_EXPLAIN'	=> 'Lista över domäner som ej ska täckas av ovanstående.',
@@ -46,7 +42,6 @@ $lang = array_merge($lang, array(
 	'ACP_FORBIDDEN_DOMAINS_EXPLAIN'		=> 'Lista över domäner som ej ska visas, separera med ";"',
 	'ACP_FORBIDDEN_DOMAINS_TEXT'		=> 'Text som ska ersätta blockerade URLer',
 	'ACP_FORBIDDEN_NEW_URL'				=> 'URL som ska ersätta alla externa länkar',
-
 	'ACP_MODED_LINKS_ATTRIBUTES'		=> 'Länk-attribut',
 	'ACP_INTERNAL_LINK_REL'				=> 'rel-attributet för interna länkar',
 	'ACP_EXTERNAL_LINK_REL'				=> 'rel-attributet för externa länkar',
@@ -55,7 +50,6 @@ $lang = array_merge($lang, array(
 	'ACP_INTERNAL_LINK_CLASS'			=> 'class för interna länkar',
 	'ACP_EXTERNAL_LINK_CLASS'			=> 'class för externa länkar',
 	'ACP_EXTERNAL_LINK_NOINDEX'			=> 'noindex för externa länkar?',
-
 	'ACP_MODED_LINKS_TYPES'				=> 'Länktyper',
 	'ACP_PDF_LINK_TYPES'				=> 'PDF länktyper',
 	'ACP_IMG_LINK_TYPES'				=> 'IMG länktyper',
