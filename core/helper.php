@@ -347,7 +347,7 @@ class helper
 		}
 		if (!$overwrite)
 		{
-			 // Append the new one if it's not already there.
+			// Append the new one if it's not already there.
 			$new_attr = strpos(' ' . $old_attr . ' ', ' ' . $new_attr . ' ') === false ? trim($old_attr . ' ' . $new_attr) : $old_attr;
 		}
 

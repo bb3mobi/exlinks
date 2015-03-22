@@ -126,7 +126,7 @@ class exlinks_module
 			'S_ERROR'			=> (sizeof($error)) ? true : false,
 			'ERROR_MSG'			=> implode('<br />', $error),
 		));
-		
+
 		// Output relevant page
 		foreach ($display_vars['vars'] as $config_key => $vars)
 		{

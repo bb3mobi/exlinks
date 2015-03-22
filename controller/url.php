@@ -42,7 +42,7 @@ class url
 		$this->user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
 
 		require_once($this->phpbb_root_path . 'ext/bb3mobi/exlinks/idna_convert.class.' . $this->php_ext);
-		$idn = new \idna_convert();
+		$idn = new idna_convert();
 
 		$location = urldecode($this->request->server('QUERY_STRING'));
 		if (!preg_match('#.#u', $location))
@@ -51,7 +51,7 @@ class url
 		}
 		$redirect_url = $idn->encode_uri($location);
 
-		if (filter_var($redirect_url, FILTER_VALIDATE_URL) && empty($user->data['is_bot']))
+		if (empty($user->data['is_bot']))/* && preg_match('/^http(s)?:\/\//i', $redirect_url))*/
 		{
 			$s_link_valid = true;
 			if (!$this->config['external_link_redirect'])
