@@ -7,69 +7,81 @@
 
 namespace bb3mobi\exlinks\controller;
 
-use Symfony\Component\HttpFoundation\Response;
-
 class url
 {
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\request\request_interface */
 	protected $request;
 
-	protected $user;
-
+	/** @var \phpbb\config\config */
 	protected $config;
 
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\config\config $config)
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var string phpbb_root_path */
+	protected $phpbb_root_path;
+
+	/** @var string phpEx */
+	protected $php_ext;
+
+	public function __construct(\phpbb\template\template $template, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\config\config $config, $phpbb_root_path, $php_ext)
 	{
+		$this->template = $template;
 		$this->request = $request;
 		$this->user = $user;
 		$this->config = $config;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	public function main()
 	{
-		$this->user->add_lang_ext('bb3mobi/exlinks', 'info_acp_exlinks');
+		$this->user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
+
+		require_once($this->phpbb_root_path . 'ext/bb3mobi/exlinks/idna_convert.class.' . $this->php_ext);
+		$idn = new \idna_convert();
 
 		$location = urldecode($this->request->server('QUERY_STRING'));
-		$location = strip_tags($location);
 		if (!preg_match('#.#u', $location))
 		{
 			$location = iconv('Windows-1251', 'UTF-8', $location);
 		}
+		$redirect_url = $idn->encode_uri($location);
 
-		if (preg_match('/^http(s)?:\/\//i', $location) && empty($user->data['is_bot']))
+		if (filter_var($redirect_url, FILTER_VALIDATE_URL) && empty($user->data['is_bot']))
 		{
+			$s_link_valid = true;
 			if (!$this->config['external_link_redirect'])
 			{
-				redirect($location, false, true);
-				return;
+				header('Location: ' . $redirect_url);
+				exit();
 			}
-			meta_refresh($this->config['external_link_redirect'], $location, true); // Time redirect
-			$parse =  parse_url($location);
-			$message = sprintf($this->user->lang['MESSAGE_TEXT'], utf8_basename($parse['host']));
-			$message .= '<script type="text/javascript">
-			function timer(){
-			var obj=document.getElementById(\'timer_inp\');
-			obj.innerHTML--;
-				if (obj.innerHTML==0){
-					setTimeout(function(){},1000);
-				} else {
-					setTimeout(timer,1000);
-				}
-			}
-			setTimeout(timer,1000);
-			</script>';
-			$message .= '<p class="error">' . $this->user->lang['ACP_EXTERNAL_LINK_EXACT'] . '&nbsp;<a href="' . $location . '">' . $location . '</a></p>';
-			$message .= sprintf($this->user->lang['URL_LINK'], '&nbsp;<a href="' . $location . '" class="button">', '</a>');
-			$message .= '&nbsp;<span id="timer_inp" class="button">' . $this->config['external_link_redirect'] . '</span>';
-			$message .= sprintf($this->user->lang['CLOSE_PAGE'], '&nbsp;<a href="' . generate_board_url() . '" class="button" onclick="self.close()">', '</a>');
+			header('Refresh: ' . $this->config['external_link_redirect'] . '; url=' . $redirect_url); // Time redirect
+			$parse = parse_url($location);
+			$redirect_url = utf8_basename($parse['host']);
 		}
-		else
-		{
-			$message = '<div class="search-box"><form action="http://www.google.com/search"><fieldset>';
-			$message .= '<input class="inputbox search tiny" type="search" name="q" value="' . $location . '" />';
-			$message .= '<button type="submit" class="button icon-button search-icon" title="Google!">Google!</button>';
-			$message .= '</fieldset></form></div>';
-		}
-		$copyright = ' &copy; <a href="http://bb3.mobi">' . $this->user->lang['ACP_MODED_LINKS_TITLE'] . ' phpBB3.1</a>';
-		trigger_error($message . '<div class="copyright">' . $this->user->lang['ACP_MODED_LINKS'] . ' bb3.mobi' . $copyright . '</div>');
+
+		$this->template->assign_vars(array(
+			'EXTERNAL_MSG'	=> sprintf($this->user->lang['EXTERNAL_MESSAGE_TEXT'], $redirect_url),
+			'EXTERNAL_RED'	=> $this->config['external_link_redirect'],
+			'EXTERNAL_URL'	=> $location,
+
+			'S_LINK_VALID'	=> (isset($s_link_valid) ? true : false),
+			)
+		);
+
+		//
+		// Start output of page
+		//
+		page_header($this->user->lang['EXTERNAL_REDIRECT']);
+
+		$this->template->set_filenames(array(
+			'body' => '@bb3mobi_exlinks/exlinks_body.html')
+		);
+
+		page_footer();
 	}
 }

@@ -2,15 +2,19 @@ services:
     bb3mobi.exlinks.controller:
         class: bb3mobi\exlinks\controller\url
         arguments:
+            - @template
             - @request
             - @user
             - @config
+            - %core.root_path%
+            - %core.php_ext%
     bb3mobi.exlinks.helper:
         class: bb3mobi\exlinks\core\helper
         arguments:
             - @config
             - @config_text
             - @user
+            - @controller.helper
     bb3mobi.exlinks.listener:
         class: bb3mobi\exlinks\event\listener
         arguments:

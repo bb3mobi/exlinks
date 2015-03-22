@@ -30,13 +30,15 @@ class exlinks_module
 			'title'	=> 'ACP_MODED_LINKS',
 			'vars'	=> array(
 				'legend1'				=> 'ACP_MODED_LINKS_SETTINGS',
-					'hide_links_from_guests'	=> array('lang' => 'ACP_HIDE_LINKS_GUESTS',			'validate' => 'string', 'type' => 'text:40:70', 'explain' => true),
-					'external_link_prefix'		=> array('lang' => 'ACP_EXTERNAL_LINK_PREFIX',		'validate' => 'string', 'type' => 'text:30:255', 'explain' => false),
-					'external_link_redirect'	=> array('lang' => 'ACP_EXTERNAL_LINK_REDIRECT',	'validate' => 'int:0:120', 'type' => 'number:0:120', 'explain' => false),
-					'internal_link_domains'		=> array('lang' => 'ACP_INTERNAL_LINK_DOMAINS',		'validate' => '', 'type' => 'textarea:6:30', 'explain' => false),
-					'forbidden_domains'			=> array('lang' => 'ACP_FORBIDDEN_DOMAINS',			'validate' => '', 'type' => 'textarea:6:30', 'explain' => false),
-					'forbidden_domains_text'	=> array('lang' => 'ACP_FORBIDDEN_DOMAINS_TEXT',	'validate' => 'string', 'type' => 'text:40:70', 'explain' => false),
-					'forbidden_new_url'			=> array('lang' => 'ACP_FORBIDDEN_NEW_URL',			'validate' => 'string', 'type' => 'text:30:255', 'explain' => false),
+					'hide_links_from_guests'		=> array('lang' => 'ACP_HIDE_LINKS_GUESTS',				'validate' => 'string',		'type' => 'text:40:70', 'explain' => true),
+					'hide_links_min_posts'			=> array('lang' => 'ACP_HIDE_LINKS_MIN_POSTS',			'validate' => 'int:0:200',	'type' => 'number:0:200', 'explain' => true),
+					'external_link_prefix'			=> array('lang' => 'ACP_EXTERNAL_LINK_PREFIX',			'validate' => 'string',		'type' => 'text:30:255', 'explain' => true),
+					'external_link_prefix_level'	=> array('lang' => 'ACP_EXTERNAL_LINK_PREFIX_LEVEL',	'validate' => 'int',		'type' => 'select', 'method' => 'select_display_type', 'explain' => false),
+					'external_link_redirect'		=> array('lang' => 'ACP_EXTERNAL_LINK_REDIRECT',		'validate' => 'int:0:120',	'type' => 'number:0:120', 'explain' => false),
+					'internal_link_domains'			=> array('lang' => 'ACP_INTERNAL_LINK_DOMAINS',			'validate' => '',			'type' => 'textarea:6:30', 'explain' => true),
+					'forbidden_domains'				=> array('lang' => 'ACP_FORBIDDEN_DOMAINS',				'validate' => '',			'type' => 'textarea:6:30', 'explain' => true),
+					'forbidden_domains_text'		=> array('lang' => 'ACP_FORBIDDEN_DOMAINS_TEXT',		'validate' => 'string',		'type' => 'text:40:70', 'explain' => false),
+					'forbidden_new_url'				=> array('lang' => 'ACP_FORBIDDEN_NEW_URL',				'validate' => 'string',		'type' => 'text:30:255', 'explain' => false),
 
 				'legend2'				=> 'ACP_MODED_LINKS_ATTRIBUTES',
 					'use_target_attribute'		=> array('lang' => 'ACP_TARGET_ATTRIBUTE',		'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
@@ -181,5 +183,22 @@ class exlinks_module
 
 			unset($display_vars['vars'][$config_key]);
 		}
+	}
+	/**
+	* Select display method
+	*/
+	function select_display_type($selected_value, $value)
+	{
+		global $user;
+
+		$act_options = '';
+
+		foreach ($user->lang['LINK_PREFIX_LEVEL'] as $key => $value)
+		{
+			$selected = ($selected_value == $key) ? ' selected="selected"' : '';
+			$act_options .= '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
+		}
+
+		return $act_options;
 	}
 }

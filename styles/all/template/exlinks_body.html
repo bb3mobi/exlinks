@@ -1,0 +1,51 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="panel">
+	<div class="inner">
+	<h3>{L_EXTERNAL_REDIRECT}</h3>
+	<p>{EXTERNAL_MSG}</p>
+
+	<!-- IF S_LINK_VALID -->
+
+	<p class="error">{L_EXTERNAL_LINK_EXACT}{L_COLON}&nbsp;<a href="{EXTERNAL_URL}">{EXTERNAL_URL}</a></p>
+
+	<a href="{EXTERNAL_URL}" class="button">{L_URL_LINK}</a>
+	<a href="{BOARD_URL}" class="button right-box" onclick="self.close()"><span id="timer_inp">{EXTERNAL_RED}</span> {L_CLOSE_PAGE}</a>
+
+	<!-- ELSE -->
+
+	<form action="https://www.google.com/search">
+	<fieldset class="fields1">
+		<dl>
+			<dt><label for="google">{L_SEARCH}{L_COLON}</label></dt>
+			<dd><div class="search-box"><input id="google" class="inputbox search tiny" type="search" name="q" value="{EXTERNAL_URL}" />
+			<button type="submit" class="button icon-button search-icon" title="Google!">Google!</button></div>
+			</dd>
+		</dl>
+	</fieldset>
+	</form>
+
+	<!-- ENDIF -->
+
+	</div>
+</div>
+
+<div class="copyright"><a href="http://bb3.mobi">External Links</a> &copy; Anvar (apwa.ru)</div>
+
+<script type="text/javascript">
+function timer(){
+	var obj=document.getElementById('timer_inp');
+	obj.innerHTML--;
+	if (obj.innerHTML==0){
+		setTimeout(function(){},1000);
+	} else {
+		setTimeout(timer,1000);
+	}
+}
+setTimeout(timer,1000);
+</script>
+
+<!-- External Links in phpBB
+*** Author Anvar (apwa.ru)
+*** Team Site: http://bb3.mobi -->
+<!-- INCLUDE overall_footer.html -->

@@ -14,14 +14,6 @@
 
 namespace bb3mobi\exlinks\core;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
 class helper
 {
 	/** @var \phpbb\config\config */
@@ -33,16 +25,22 @@ class helper
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\controller\helper */
+	protected $helper;
+
 	var $internal_link_domains;
 	var $forbidden_domains;
 
 	var $board_url;
 	var $board_host;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\user $user)
+	public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\user $user, \phpbb\controller\helper $helper)
 	{
 		$this->config = $config;
 		$this->user = $user;
+		$this->helper = $helper;
+
+		$user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
 
 		$this->internal_link_domains = $config_text->get('internal_link_domains');
 		$this->forbidden_domains = $config_text->get('forbidden_domains');
@@ -147,6 +145,11 @@ class helper
 				$new_link = $this->insert_attribute('rel', $new_rel, $new_link);
 			}
 
+			if (!$is_local && $this->config['hide_links_min_posts'] && $this->config['hide_links_min_posts'] > $this->user->data['user_posts'])
+			{
+				$new_target = false;
+			}
+
 			if ($new_target)
 			{
 				if(!empty($this->config['use_target_attribute']))
@@ -159,18 +162,36 @@ class helper
 				}
 			}
 
-			$external_prefix = (!empty($this->config['external_link_prefix'])) ? $this->config['external_link_prefix'] : '';
 			// Remove the link?
 			if ($new_target === false || (!empty($this->config['hide_links_from_guests']) && !$is_local && !$this->user->data['is_registered']))
 			{
-				$new_text = is_string($this->config['hide_links_from_guests']) ? $this->config['hide_links_from_guests'] : substr($links[2], 0, -4);
+				if (!$this->user->data['is_registered'])
+				{
+					$new_text = $this->user->lang['HIDE_LINKS_GUESTS'];
+					if (!is_numeric($this->config['hide_links_from_guests']))
+					{
+						$new_text = $this->config['hide_links_from_guests'];
+					}
+				}
+				else
+				{
+					$new_text = sprintf($this->user->lang['HIDE_LINKS_MIN_POSTS'], $this->config['hide_links_min_posts']);
+				}
 				$new_link = '<a href="' . $this->config['forbidden_new_url'] . '" class="' . $new_class . '">' . $new_text . '</a>';
 				$link = $links[0];
 			}
-			else if (!$is_local && $external_prefix)
+			else if (!$is_local && $this->config['external_link_prefix_level'])
 			{
-				$external_prefix = ($this->config['skip_prefix_types'] && preg_match('/\.(?:' . $this->config['skip_prefix_types'] . ')(?:[#?]|$)/', $href)) ? '' : $external_prefix;
-				$new_link = str_replace('href="', 'href="' . $external_prefix, $new_link);
+				$link_prefix_level = $this->config['external_link_prefix_level'];
+				if ($this->config['skip_prefix_types'] && preg_match('/\.(?:' . $this->config['skip_prefix_types'] . ')(?:[#?]|$)/', $href))
+				{
+					$link_prefix_level = 0;
+				}
+				if ($link_prefix_level == 3 || ($this->user->data['is_registered'] && $link_prefix_level == 2) || (!$this->user->data['is_registered'] && $link_prefix_level == 1))
+				{
+					$external_prefix = ($this->config['external_link_prefix']) ? $this->config['external_link_prefix'] : $this->helper->route("bb3mobi_exlinks_controller") . '?';
+					$new_link = str_replace('href="', 'href="' . $external_prefix, $new_link);
+				}
 			}
 
 			$searches[]		= $link;
@@ -226,7 +247,7 @@ class helper
 		$url = utf8_case_fold_nfc($url);
 		$url_split = array_reverse(explode('.', $url));
 
-		$domain_list = is_string($domains) ? explode(';', $domains) : $domains;
+		$domain_list = is_string($domains) ? explode('\n', $domains) : $domains;
 		foreach ($domain_list as $domain)
 		{
 			$domain = $this->extract_host($domain);

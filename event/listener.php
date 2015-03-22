@@ -6,8 +6,8 @@
 * @copyright (c) 2007-2012 Ken F. Innes IV
 *
 *
-* @package phpBB3.1 External Links v 1.0.4
-* @copyright (c) 2014 Anvar(apwa.ru) && bb3.mobi
+* @package phpBB3.1 External Links v 1.0.5
+* @copyright BB3.Mobi 2015 (c) Anvar(http://apwa.ru)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -40,5 +40,3 @@ class listener implements EventSubscriberInterface
 		$event['text'] = $text;
 	}
 }
-
-?>

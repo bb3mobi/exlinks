@@ -18,7 +18,7 @@ class exlinks_v_1_0_3 extends \phpbb\db\migration\migration
 
 	static public function depends_on()
 	{
-			return array('\phpbb\db\migration\data\v310\dev');
+		return array('\phpbb\db\migration\data\v310\dev');
 	}
 
 	public function update_data()
@@ -27,11 +27,11 @@ class exlinks_v_1_0_3 extends \phpbb\db\migration\migration
 			// Add configs
 			array('config.add', array('use_target_attribute', '0')),
 			array('config.add', array('hide_links_from_guests', '0')),
-			array('config.add', array('external_link_prefix', generate_board_url() . '/url.php?')),
-			array('config.add', array('internal_link_domains', 'phpbbguru.net;bb3.mobi;apwa.ru')),
+			array('config.add', array('external_link_prefix', '')),
+			array('config.add', array('internal_link_domains', 'bb3.mobi')),
 			array('config.add', array('forbidden_domains', '')),
 			array('config.add', array('forbidden_domains_text', 'url blocked!')),
-			array('config.add', array('forbidden_new_url', generate_board_url())),
+			array('config.add', array('forbidden_new_url', '#')),
 			array('config.add', array('internal_link_rel', '')),
 			array('config.add', array('external_link_rel', '')),
 			array('config.add', array('internal_link_target', '')),
