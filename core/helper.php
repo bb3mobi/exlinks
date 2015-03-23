@@ -247,7 +247,7 @@ class helper
 		$url = utf8_case_fold_nfc($url);
 		$url_split = array_reverse(explode('.', $url));
 
-		$domain_list = is_string($domains) ? explode('\n', $domains) : $domains;
+		$domain_list = is_string($domains) ? explode("\n", $domains) : $domains;
 		foreach ($domain_list as $domain)
 		{
 			$domain = $this->extract_host($domain);
