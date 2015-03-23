@@ -200,7 +200,9 @@ class idna_convert
 			foreach ($arr as $k => $v) {
 				if (preg_match('!^'.preg_quote($this->_punycode_prefix, '!').'!', $v)) {
 					$conv = $this->_decode($v);
-					if ($conv) $arr[$k] = $conv;
+					if ($conv) {
+						$arr[$k] = $conv;
+					}
 				}
 			}
 			$email_pref = join('.', $arr);
@@ -429,8 +431,7 @@ class idna_convert
 			for ($old_idx = $idx, $w = 1, $k = $this->_base; 1 ; $k += $this->_base) {
 				$digit = $this->_decode_digit($encoded{$enco_idx++});
 				$idx += $digit*$w;
-				$t = ($k <= $bias) ? $this->_tmin :
-						(($k >= $bias + $this->_tmax) ? $this->_tmax : ($k - $bias));
+				$t = ($k <= $bias) ? $this->_tmin : (($k >= $bias + $this->_tmax) ? $this->_tmax : ($k - $bias));
 				if ($digit < $t) {
 					break;
 				}
@@ -481,9 +482,13 @@ class idna_convert
 		}
 		// Do NAMEPREP
 		$decoded = $this->_nameprep($decoded);
-		if (!$decoded || !is_array($decoded)) return false; // NAMEPREP failed
+		if (!$decoded || !is_array($decoded)) {
+			return false; // NAMEPREP failed
+		}
 		$deco_len  = count($decoded);
-		if (!$deco_len) return false; // Empty array
+		if (!$deco_len) {
+			return false; // Empty array
+		}
 		$codecount = 0; // How many chars have been consumed
 		$encoded = '';
 		// Copy all basic code points to output
@@ -496,7 +501,9 @@ class idna_convert
 				$codecount++;
 			}
 		}
-		if ($codecount == $deco_len) return $encoded; // All codepoints were basic ones
+		if ($codecount == $deco_len) {
+			return $encoded; // All codepoints were basic ones
+		}
 
 		// Start with the prefix; copy it to output
 		$encoded = $this->_punycode_prefix.$encoded;
@@ -657,7 +664,9 @@ class idna_convert
 				if ($out) {
 					$output[$last_starter] = $out;
 					if (count($out) != $seq_len) {
-						for ($j = $i+1; $j < $out_len; ++$j) $output[$j-1] = $output[$j];
+						for ($j = $i+1; $j < $out_len; ++$j) {
+							$output[$j-1] = $output[$j];
+						}
 						unset($output[$out_len]);
 					}
 					// Rewind the for loop by one, since there can be more possible compositions
