@@ -51,7 +51,7 @@ class url
 		}
 		$redirect_url = $idn->encode_uri($location);
 
-		if (empty($user->data['is_bot']))/* && preg_match('/^http(s)?:\/\//i', $redirect_url))*/
+		if (empty($this->user->data['is_bot']))
 		{
 			$s_link_valid = true;
 			if (!$this->config['external_link_redirect'])

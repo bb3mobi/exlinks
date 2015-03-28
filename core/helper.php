@@ -187,9 +187,9 @@ class helper
 				{
 					$link_prefix_level = 0;
 				}
-				if ($link_prefix_level == 3 || ($this->user->data['is_registered'] && $link_prefix_level == 2) || (!$this->user->data['is_registered'] && $link_prefix_level == 1))
+				if ($link_prefix_level == 3 || ($this->user->data['user_id'] != ANONYMOUS && $link_prefix_level == 2) || (!$this->user->data['is_registered'] && $link_prefix_level == 1))
 				{
-					$external_prefix = ($this->config['external_link_prefix']) ? $this->config['external_link_prefix'] : $this->helper->route("bb3mobi_exlinks_controller") . '?';
+					$external_prefix = ($this->config['external_link_prefix']) ? $this->config['external_link_prefix'] : $this->helper->route("bb3mobi_exlinks_controller", array(), false, false) . '?';
 					$new_link = str_replace('href="', 'href="' . $external_prefix, $new_link);
 				}
 			}
