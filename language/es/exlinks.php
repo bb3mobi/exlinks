@@ -8,6 +8,13 @@
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
+/**
+* DO NOT CHANGE
+*/
+if (!defined('IN_PHPBB'))
+{
+	exit;
+}
 
 if (empty($lang) || !is_array($lang))
 {
