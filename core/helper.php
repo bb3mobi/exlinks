@@ -189,7 +189,12 @@ class helper
 				}
 				if ($link_prefix_level == 3 || ($this->user->data['user_id'] != ANONYMOUS && $link_prefix_level == 2) || (!$this->user->data['is_registered'] && $link_prefix_level == 1))
 				{
-					$external_prefix = ($this->config['external_link_prefix']) ? $this->config['external_link_prefix'] : $this->helper->route("bb3mobi_exlinks_controller", array(), false, false) . '?';
+					$external_prefix = $this->config['external_link_prefix'];
+					if (!$external_prefix)
+					{
+						$external_prefix = $this->helper->route("bb3mobi_exlinks_controller", array(), false, false) . '?';
+						$external_prefix = str_replace('??', '?', $external_prefix);
+					}
 					$new_link = str_replace('href="', 'href="' . $external_prefix, $new_link);
 				}
 			}
@@ -212,8 +217,8 @@ class helper
 	private function decode_entities($text)
 	{
 		$text = html_entity_decode($text, ENT_QUOTES, 'ISO-8859-1');		 //UTF-8 does not work!
-		$text = preg_replace('/&#(\d+);/me', 'chr($1)', $text);			 //decimal notation
-		$text = preg_replace('/&#x([a-f0-9]+);/mei', 'chr(0x$1)', $text);	//hex notation
+		$text = preg_replace_callback('/&#(\d+);/m', function ($matches) {return chr($matches[1]);}, $text);	//decimal notation
+		$text = preg_replace_callback('/&#x([a-f0-9]+);/mi', function ($matches) {return chr('0x' . $matches[1]);}, $text);	//hex notation
 		return($text);
 	}
 
@@ -347,7 +352,7 @@ class helper
 		}
 		if (!$overwrite)
 		{
-			// Append the new one if it's not already there.
+			 // Append the new one if it's not already there.
 			$new_attr = strpos(' ' . $old_attr . ' ', ' ' . $new_attr . ' ') === false ? trim($old_attr . ' ' . $new_attr) : $old_attr;
 		}
 

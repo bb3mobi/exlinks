@@ -21,43 +21,35 @@ class url
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var string phpbb_root_path */
-	protected $phpbb_root_path;
+	/** @var bb3mobi\exlinks\idna_convert */
+	protected $convert;
 
-	/** @var string phpEx */
-	protected $php_ext;
-
-	public function __construct(\phpbb\template\template $template, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\config\config $config, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\template\template $template, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\config\config $config, $convert)
 	{
 		$this->template = $template;
 		$this->request = $request;
 		$this->user = $user;
 		$this->config = $config;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
+		$this->convert = $convert;
 	}
 
 	public function main()
 	{
 		$this->user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
 
-		require_once($this->phpbb_root_path . 'ext/bb3mobi/exlinks/idna_convert.class.' . $this->php_ext);
-		$idn = new idna_convert();
-
 		$location = urldecode($this->request->server('QUERY_STRING'));
 		if (!preg_match('#.#u', $location))
 		{
 			$location = iconv('Windows-1251', 'UTF-8', $location);
 		}
-		$redirect_url = $idn->encode_uri($location);
+		$redirect_url = $this->convert->encode_uri($location);
 
-		if (empty($this->user->data['is_bot']))
+		if (/*filter_var($redirect_url, FILTER_VALIDATE_URL) && */empty($this->user->data['is_bot']))
 		{
 			$s_link_valid = true;
 			if (!$this->config['external_link_redirect'])
 			{
-				header('Location: ' . $redirect_url);
-				return;
+				redirect($redirect_url, false, true);
 			}
 			header('Refresh: ' . $this->config['external_link_redirect'] . '; url=' . $redirect_url); // Time redirect
 			$parse = parse_url($location);

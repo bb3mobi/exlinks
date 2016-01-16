@@ -6,8 +6,7 @@ services:
             - @request
             - @user
             - @config
-            - %core.root_path%
-            - %core.php_ext%
+            - @bb3mobi.exlinks.convert
     bb3mobi.exlinks.helper:
         class: bb3mobi\exlinks\core\helper
         arguments:
@@ -21,3 +20,5 @@ services:
             - @bb3mobi.exlinks.helper
         tags:
             - { name: event.listener }
+    bb3mobi.exlinks.convert:
+        class: bb3mobi\exlinks\idna_convert

@@ -1,3 +1,3 @@
 bb3mobi_exlinks_controller:
-    pattern: /url.php
+    pattern: /link
     defaults: { _controller: bb3mobi.exlinks.controller:main }
