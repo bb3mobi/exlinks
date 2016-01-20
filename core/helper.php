@@ -6,8 +6,8 @@
 * @copyright (c) 2007-2012 Ken F. Innes IV
 *
 *
-* @package phpBB3.1 External Links v 1.0.4
-* @copyright (c) 2014 Anvar (http://bb3.mobi)
+* @package phpBB3.1 External Links v 1.0.5
+* @copyright (c) 2015 Anvar (http://bb3.mobi)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -189,13 +189,16 @@ class helper
 				}
 				if ($link_prefix_level == 3 || ($this->user->data['user_id'] != ANONYMOUS && $link_prefix_level == 2) || (!$this->user->data['is_registered'] && $link_prefix_level == 1))
 				{
-					$external_prefix = $this->config['external_link_prefix'];
 					if (!$external_prefix)
 					{
-						$external_prefix = $this->helper->route("bb3mobi_exlinks_controller", array(), false, false) . '?';
-						$external_prefix = str_replace('??', '?', $external_prefix);
+						$replace_link = $this->helper->route("bb3mobi_exlinks_controller", array('url' => base64_encode($href)), false, false);
+						$new_link = str_replace($href, $replace_link, $new_link);
 					}
-					$new_link = str_replace('href="', 'href="' . $external_prefix, $new_link);
+					else
+					{
+						$external_prefix = $this->config['external_link_prefix'];
+						$new_link = str_replace('href="', 'href="' . $external_prefix, $new_link);
+					}
 				}
 			}
 

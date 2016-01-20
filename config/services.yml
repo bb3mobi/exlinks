@@ -3,7 +3,6 @@ services:
         class: bb3mobi\exlinks\controller\url
         arguments:
             - @template
-            - @request
             - @user
             - @config
             - @bb3mobi.exlinks.convert

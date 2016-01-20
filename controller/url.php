@@ -12,9 +12,6 @@ class url
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\request\request_interface */
-	protected $request;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -24,27 +21,26 @@ class url
 	/** @var bb3mobi\exlinks\idna_convert */
 	protected $convert;
 
-	public function __construct(\phpbb\template\template $template, \phpbb\request\request_interface $request, \phpbb\user $user, \phpbb\config\config $config, $convert)
+	public function __construct(\phpbb\template\template $template, \phpbb\user $user, \phpbb\config\config $config, $convert)
 	{
 		$this->template = $template;
-		$this->request = $request;
 		$this->user = $user;
 		$this->config = $config;
 		$this->convert = $convert;
 	}
 
-	public function main()
+	public function main($url)
 	{
 		$this->user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
 
-		$location = urldecode($this->request->server('QUERY_STRING'));
+		$location = base64_decode($url);
 		if (!preg_match('#.#u', $location))
 		{
 			$location = iconv('Windows-1251', 'UTF-8', $location);
 		}
 		$redirect_url = $this->convert->encode_uri($location);
 
-		if (/*filter_var($redirect_url, FILTER_VALIDATE_URL) && */empty($this->user->data['is_bot']))
+		if (preg_match('#(^|[\n\t (>.])(' . get_preg_expression('url_inline') . ')#iu', $redirect_url) && empty($this->user->data['is_bot']))
 		{
 			$s_link_valid = true;
 			if (!$this->config['external_link_redirect'])
@@ -59,8 +55,7 @@ class url
 		$this->template->assign_vars(array(
 			'EXTERNAL_MSG'	=> sprintf($this->user->lang['EXTERNAL_MESSAGE_TEXT'], $redirect_url),
 			'EXTERNAL_RED'	=> $this->config['external_link_redirect'],
-			'EXTERNAL_URL'	=> $location,
-
+			'EXTERNAL_URL'	=> urldecode($location),
 			'S_LINK_VALID'	=> (isset($s_link_valid) ? true : false),
 			)
 		);
