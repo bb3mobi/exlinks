@@ -191,7 +191,7 @@ class helper
 				{
 					if (!$external_prefix)
 					{
-						$replace_link = $this->helper->route("bb3mobi_exlinks_controller", array('url' => base64_encode($href)), false, false);
+						$replace_link = $this->helper->route("bb3mobi_exlinks_controller", array('url' => urlencode($href)), false, false);
 						$new_link = str_replace($href, $replace_link, $new_link);
 					}
 					else

@@ -33,7 +33,7 @@ class url
 	{
 		$this->user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
 
-		$location = base64_decode($url);
+		$location = urldecode($url);
 		if (!preg_match('#.#u', $location))
 		{
 			$location = iconv('Windows-1251', 'UTF-8', $location);
@@ -55,7 +55,7 @@ class url
 		$this->template->assign_vars(array(
 			'EXTERNAL_MSG'	=> sprintf($this->user->lang['EXTERNAL_MESSAGE_TEXT'], $redirect_url),
 			'EXTERNAL_RED'	=> $this->config['external_link_redirect'],
-			'EXTERNAL_URL'	=> urldecode($location),
+			'EXTERNAL_URL'	=> $location,
 			'S_LINK_VALID'	=> (isset($s_link_valid) ? true : false),
 			)
 		);
