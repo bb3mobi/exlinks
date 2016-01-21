@@ -189,15 +189,14 @@ class helper
 				}
 				if ($link_prefix_level == 3 || ($this->user->data['user_id'] != ANONYMOUS && $link_prefix_level == 2) || (!$this->user->data['is_registered'] && $link_prefix_level == 1))
 				{
-					if (!$external_prefix)
+					if (!$this->config['external_link_prefix'])
 					{
 						$replace_link = $this->helper->route("bb3mobi_exlinks_controller", array('url' => urlencode($href)), false, false);
 						$new_link = str_replace($href, $replace_link, $new_link);
 					}
 					else
 					{
-						$external_prefix = $this->config['external_link_prefix'];
-						$new_link = str_replace('href="', 'href="' . $external_prefix, $new_link);
+						$new_link = str_replace('href="', 'href="' . $this->config['external_link_prefix'], $new_link);
 					}
 				}
 			}
