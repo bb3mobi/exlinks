@@ -34,21 +34,32 @@ class url
 		$this->user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
 
 		$location = urldecode($url);
-		if (!preg_match('#.#u', $location))
-		{
-			$location = iconv('Windows-1251', 'UTF-8', $location);
-		}
-		$redirect_url = $this->convert->encode_uri($location);
+
+		$redirect_url = html_entity_decode($location, ENT_QUOTES);
 
 		if (preg_match('#(^|[\n\t (>.])(' . get_preg_expression('url_inline') . ')#iu', $redirect_url) && empty($this->user->data['is_bot']))
 		{
 			$s_link_valid = true;
+
+			if (!preg_match('#.#u', $redirect_url))
+			{
+				$redirect_url = iconv('Windows-1251', 'UTF-8', $redirect_url);
+			}
+
+			$redirect_url = $this->convert->encode_uri($redirect_url);
+
 			if (!$this->config['external_link_redirect'])
 			{
 				redirect($redirect_url, false, true);
 			}
-			header('Refresh: ' . $this->config['external_link_redirect'] . '; url=' . $redirect_url); // Time redirect
+
+			// Time redirect
+
+			meta_refresh($this->config['external_link_redirect'], $redirect_url, true);
+			//header('Refresh: ' . $this->config['external_link_redirect'] . '; url=' . $redirect_url);
+
 			$parse = parse_url($location);
+
 			$redirect_url = utf8_basename($parse['host']);
 		}
 

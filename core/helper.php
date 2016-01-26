@@ -69,14 +69,14 @@ class helper
 		foreach ($matches as $links)
 		{
 			$link = $new_link = $links[1];
-			$href = preg_replace('/^.*href="([^"]*)".*$/i', '$1', $link);
+			$hreff = preg_replace('/^.*href="([^"]*)".*$/i', '$1', $link);
 
-			if ($href == $link) //no link was found
+			if ($hreff == $link) //no link was found
 			{
 				continue;
 			}
 
-			$href	= $this->decode_entities($href);
+			$href	= $this->decode_entities($hreff);
 			$scheme	= substr($href, 0, strpos($href, ':'));
 
 			if ($scheme)
@@ -191,8 +191,8 @@ class helper
 				{
 					if (!$this->config['external_link_prefix'])
 					{
-						$replace_link = $this->helper->route("bb3mobi_exlinks_controller", array('url' => urlencode($href)), false, false);
-						$new_link = str_replace($href, $replace_link, $new_link);
+						$replace_link = $this->helper->route("bb3mobi_exlinks_controller", array('url' => urlencode($hreff)), false, false);
+						$new_link = str_replace($hreff, $replace_link, $new_link);
 					}
 					else
 					{
