@@ -14,29 +14,20 @@
 
 	<!-- ELSE -->
 
-	<form action="https://www.google.com/search">
-	<fieldset class="fields1">
-		<dl>
-			<dt><label for="google">{L_SEARCH}{L_COLON}</label></dt>
-			<dd><div class="search-box"><input id="google" class="inputbox search tiny" type="search" name="q" value="{EXTERNAL_URL}" />
-			<button type="submit" class="button icon-button search-icon" title="Google!">Google!</button></div>
-			</dd>
-		</dl>
-	</fieldset>
-	</form>
+	<p class="error">{L_INSECURE_REDIRECT}</p>
 
 	<!-- ENDIF -->
 
 	</div>
 </div>
 
-<div class="copyright"><a href="http://bb3.mobi/forum/viewtopic.php?t=26" title="url edition">External Links</a> &copy; Anvar (apwa.ru)</div>
+<div class="copyright">{L_PAGE_BB3MOBI}</div>
 
 <script type="text/javascript">
-function timer(){
+function timer() {
 	var obj=document.getElementById('timer_inp');
 	obj.innerHTML--;
-	if (obj.innerHTML==0){
+	if (obj.innerHTML==0) {
 		setTimeout(function(){},1000);
 	} else {
 		setTimeout(timer,1000);

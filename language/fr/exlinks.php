@@ -47,4 +47,5 @@ $lang = array_merge($lang, array(
 	'EXTERNAL_MESSAGE_TEXT'	=> 'Vous avez choisi de vous rendre sur un lien externe au forum : <span class="error">%s</span><br /><br />Êtes-vous sûr(e) de vouloir continuer ?<br />Si le lien est suspecté, veuillez le signaler à l’un des membres de l’équipe forum.',
 	'URL_LINK'				=> ' Se rendre sur le lien',
 	'CLOSE_PAGE'			=> 'seconde(s) avant la redirection - Fermer cette page',
+	'PAGE_BB3MOBI'			=> '<a href="http://bb3.mobi/forum/viewtopic.php?t=26" title="URL Edition">External Links</a> &copy; Anvar (apwa.ru)',
 ));

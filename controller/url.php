@@ -1,8 +1,8 @@
 <?php
 /**
 * @author Anvar [http://bb3.mobi]
-* @version 1.0.0
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+* @version 1.0.5
+* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 */
 
 namespace bb3mobi\exlinks\controller;
@@ -37,7 +37,7 @@ class url
 
 		$redirect_url = html_entity_decode($location, ENT_QUOTES);
 
-		if (preg_match('#(^|[\n\t (>.])(' . get_preg_expression('url_inline') . ')#iu', $redirect_url) && empty($this->user->data['is_bot']))
+		if (preg_match('#(^|[\n\t (>.])(' . get_preg_expression('url_inline') . ')#iu', $redirect_url))
 		{
 			$s_link_valid = true;
 
@@ -54,7 +54,6 @@ class url
 			}
 
 			// Time redirect
-
 			meta_refresh($this->config['external_link_redirect'], $redirect_url, true);
 			//header('Refresh: ' . $this->config['external_link_redirect'] . '; url=' . $redirect_url);
 

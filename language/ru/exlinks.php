@@ -29,4 +29,5 @@ $lang = array_merge($lang, array(
 	'EXTERNAL_MESSAGE_TEXT'	=> 'Вы переходите по внешней ссылке: <span class="error">%s</span><br /><br />Убедитесь, что данная ссылка полностью является доверенной и ограждена от вредоносных влияний.<br />Если же ссылка показалась вам подозрительной, убедительная просьба сообщить об этом администрации.',
 	'URL_LINK'				=> 'Перейти по указанной ссылке',
 	'CLOSE_PAGE'			=> 'Закрыть и вернуться на страницу',
+	'PAGE_BB3MOBI'			=> '<a href="http://bb3.mobi/forum/viewtopic.php?t=26" title="URL Edition">External Links</a> &copy; Anvar (apwa.ru)',
 ));

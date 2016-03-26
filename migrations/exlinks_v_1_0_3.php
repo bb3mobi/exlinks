@@ -3,7 +3,7 @@
 *
 * @package External Links
 * @copyright (c) 2014 Anvar http://bb3.mobi
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
 
