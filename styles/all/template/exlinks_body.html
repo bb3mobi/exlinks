@@ -5,18 +5,10 @@
 	<h3>{L_EXTERNAL_REDIRECT}</h3>
 	<p>{EXTERNAL_MSG}</p>
 
-	<!-- IF S_LINK_VALID -->
-
 	<p class="error">{L_EXTERNAL_LINK_EXACT}{L_COLON}&nbsp;<a href="{EXTERNAL_URL}">{EXTERNAL_URL}</a></p>
 
 	<a href="{EXTERNAL_URL}" class="button">{L_URL_LINK}</a>
 	<a href="{BOARD_URL}" class="button right-box" onclick="self.close()"><span id="timer_inp">{EXTERNAL_RED}</span> {L_CLOSE_PAGE}</a>
-
-	<!-- ELSE -->
-
-	<p class="error">{L_INSECURE_REDIRECT}</p>
-
-	<!-- ENDIF -->
 
 	</div>
 </div>
