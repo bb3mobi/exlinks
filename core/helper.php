@@ -42,8 +42,8 @@ class helper
 
 		$user->add_lang_ext('bb3mobi/exlinks', 'exlinks');
 
-		$this->internal_link_domains = $config_text->get('internal_link_domains');
-		$this->forbidden_domains = $config_text->get('forbidden_domains');
+		$this->internal_link_domains = utf8_case_fold_nfc($config_text->get('internal_link_domains'));
+		$this->forbidden_domains = utf8_case_fold_nfc($config_text->get('forbidden_domains'));
 
 		$this->link_type = array(
 			$config['pdf_link_types'] => 'pdf-link',
@@ -187,7 +187,7 @@ class helper
 				{
 					$link_prefix_level = 0;
 				}
-				if ($link_prefix_level == 3 || ($this->user->data['user_id'] != ANONYMOUS && $link_prefix_level == 2) || (!$this->user->data['is_registered'] && $link_prefix_level == 1))
+				if ($link_prefix_level == 3 || ($this->user->data['user_id'] != ANONYMOUS && $link_prefix_level == 2) || ($this->user->data['user_id'] == ANONYMOUS && $link_prefix_level == 1))
 				{
 					if (!$this->config['external_link_prefix'])
 					{
@@ -258,7 +258,6 @@ class helper
 		foreach ($domain_list as $domain)
 		{
 			$domain = $this->extract_host($domain);
-			$domain = utf8_case_fold_nfc($domain);
 
 			// Ignoring all subdomains, so check if our URL ends with domain
 			if (substr($url, -strlen($domain)) == $domain)
